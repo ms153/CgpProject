@@ -30,6 +30,8 @@ public class PlayerAnimation : MonoBehaviour
         anim.SetBool("idle", true);
         anim.SetBool("walk", false);
         anim.SetBool("backwards", false);
+        anim.SetBool("crouch", false);
+        
     }
     public void Walk()
     {
@@ -42,5 +44,16 @@ public class PlayerAnimation : MonoBehaviour
         anim.SetBool("backwards", true);
     }
 
+    public void Jump()
+    {
+        anim.SetTrigger("jump");
+    }
+
+    public void Crouch()
+    {
+        anim.SetBool("crouch", true);
+    }
+
+    
 
 }
