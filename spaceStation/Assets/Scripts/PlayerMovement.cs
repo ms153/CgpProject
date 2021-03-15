@@ -8,9 +8,11 @@ public class PlayerMovement : MonoBehaviour
     public CharacterController controller;
     public GameObject AnimationControl;
 
+    //static Animator anim;
+
     private float speed = 2f;
-    public float gravity = -9.81f;
-    public float jumpHeight = 3f;
+    public float gravity = -10f;
+    public float jumpHeight = 0.5f;
 
     public Transform groundCheck;
     public float groundDistance = 0.4f;
@@ -18,7 +20,19 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 velocity;
     bool isGrounded;
-    
+    bool crouch;
+
+    //colliders for crouching and standing
+    CapsuleCollider stand_collider;
+    SphereCollider crouch_collider;
+
+    private void Start()
+    {
+        //fetch GameObject's colliders
+        stand_collider = GetComponent<CapsuleCollider>();
+        crouch_collider = GetComponent<SphereCollider>();
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -26,53 +40,67 @@ public class PlayerMovement : MonoBehaviour
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
+        velocity.y += gravity * Time.deltaTime;
+
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        if(z < 0)
+        if (z < 0)
         {
             AnimationControl.GetComponent<PlayerAnimation>().BackwardsWalk();
         }
-        else if(z == 0)
+        else if (z == 0)
         {
             AnimationControl.GetComponent<PlayerAnimation>().Idle();
         }
-        else if(z > 0)
+        else if (z > 0)
         {
             AnimationControl.GetComponent<PlayerAnimation>().Walk();
         }
 
-        Vector3 move = transform.right * x + transform.forward * z;
+        Vector3 move = transform.forward * z;
 
         controller.Move(move * speed * Time.deltaTime);
 
         bool jump = Input.GetKey(KeyCode.Space);
         if (jump && isGrounded)
         {
-            AnimationControl.GetComponent<PlayerAnimation>().Jump();
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
-            
-        }
 
-        velocity.y += gravity * Time.deltaTime;
+        }
 
         controller.Move(velocity * Time.deltaTime);
 
         //player crouch
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            controller.height = 1f;
-            //crouch = true
-            AnimationControl.GetComponent<PlayerAnimation>().Crouch();
+            crouch_collider.enabled = true;
+            stand_collider.enabled = false;
+            //crouch = true;
+            if (z < 0)
+            {
+                AnimationControl.GetComponent<PlayerAnimation>().CrouchBackwardsWalk();
+            }
+            if (z == 0)
+            {
+                AnimationControl.GetComponent<PlayerAnimation>().Crouch();
+            }
+            if (z > 0)
+            {
+                AnimationControl.GetComponent<PlayerAnimation>().CrouchWalk();
+            }
+
+
         }
+        
         else
         {
-            controller.height = 2f;
+            //crouch = false;
+            crouch_collider.enabled = false;
+            stand_collider.enabled = true;
         }
+        
+
     }
 }
