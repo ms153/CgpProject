@@ -4,17 +4,5 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 5998d9981774b2c4eb5a7239755a4274
-  - enabled: 1
-    path: Assets/Scenes/spaceStation.unity
-    guid: e322df3862dbb164c854d78f2ad523a0
-  - enabled: 1
-    path: Assets/Scenes/DeathScreen.unity
-    guid: 6bd6713f5b7eb794cad2974151f7c957
-  - enabled: 1
-    path: Assets/Scenes/WinScreen.unity
-    guid: aa9b074aff35e054c849e6f36d1bd822
+  m_Scenes: []
   m_configObjects: {}

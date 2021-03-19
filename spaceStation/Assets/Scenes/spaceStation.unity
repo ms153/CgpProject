@@ -23259,7 +23259,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1938733205}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1071049513 stripped
 Transform:
@@ -25789,7 +25789,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1938733205}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 28.727001, y: 0, z: 0}
 --- !u!114 &1190626031
 MonoBehaviour:
@@ -40070,7 +40070,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 580a3c45ec2309e4591911517ff68591,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 580a3c45ec2309e4591911517ff68591,
         type: 3}
@@ -40121,6 +40121,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7373676800031433602, guid: 580a3c45ec2309e4591911517ff68591,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 17856900135852021, guid: 580a3c45ec2309e4591911517ff68591,
+        type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: 0.0000436306
+      objectReference: {fileID: 0}
+    - target: {fileID: 17856900135852021, guid: 580a3c45ec2309e4591911517ff68591,
+        type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: -0.07025066
+      objectReference: {fileID: 0}
+    - target: {fileID: 17856900135852021, guid: 580a3c45ec2309e4591911517ff68591,
+        type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: 0.040811807
+      objectReference: {fileID: 0}
+    - target: {fileID: 17856900135852021, guid: 580a3c45ec2309e4591911517ff68591,
+        type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.87761486
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 580a3c45ec2309e4591911517ff68591,
         type: 3}
@@ -43092,11 +43117,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1938733205}
   - component: {fileID: 1938733204}
-  - component: {fileID: 1938733203}
   - component: {fileID: 1938733208}
   - component: {fileID: 1938733210}
   - component: {fileID: 1938733207}
   - component: {fileID: 1938733206}
+  - component: {fileID: 1938733203}
   - component: {fileID: 1938733209}
   m_Layer: 0
   m_Name: Player
@@ -43138,9 +43163,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1831547232}
   - {fileID: 1067513752}
   - {fileID: 1190626030}
+  - {fileID: 1831547232}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43201,8 +43226,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5209862
-  m_Center: {x: 0, y: -0.3569659, z: 0}
+  m_Radius: 0.503507
+  m_Center: {x: 0, y: -0.3980137, z: 0}
 --- !u!114 &1938733210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43218,7 +43243,7 @@ MonoBehaviour:
   controller: {fileID: 1938733206}
   AnimationControl: {fileID: 1470789637}
   gravity: -9.81
-  jumpHeight: 3
+  jumpHeight: 0.5
   groundCheck: {fileID: 1067513752}
   groundDistance: 0.4
   groundMask:
@@ -44628,7 +44653,8 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 9f7f57d4fc7aeef4980abbfd568dc6d7, type: 3}
 --- !u!4 &2006947118 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9f7f57d4fc7aeef4980abbfd568dc6d7,
+    type: 3}
   m_PrefabInstance: {fileID: 2006947117}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2015162027

@@ -75,8 +75,6 @@ public class PlayerMovement : MonoBehaviour
         //player crouch
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            crouch_collider.enabled = true;
-            stand_collider.enabled = false;
             //crouch = true;
             if (z < 0)
             {
