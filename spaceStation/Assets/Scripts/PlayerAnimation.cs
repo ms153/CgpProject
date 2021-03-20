@@ -15,13 +15,6 @@ public class PlayerAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
-        //player jumps when space bar is pressed
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            anim.SetTrigger("jump");
-        }
-        */
 
     }
 
@@ -39,11 +32,14 @@ public class PlayerAnimation : MonoBehaviour
 
     public void Idle()
     {
-        anim.SetBool("idle", true);
+        
         anim.SetBool("walk", false);
         anim.SetBool("backwards", false);
         anim.SetBool("crouch", false);
-        
+        anim.SetBool("idle", true);
+        anim.SetBool("crouchBackwardsWalk", false);
+        anim.SetBool("crouchWalk", false);
+
     }
     public void Walk()
     {

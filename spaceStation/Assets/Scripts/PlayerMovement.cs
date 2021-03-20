@@ -46,27 +46,17 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        if (z < 0)
-        {
-            AnimationControl.GetComponent<PlayerAnimation>().BackwardsWalk();
-        }
-        else if (z == 0)
-        {
-            AnimationControl.GetComponent<PlayerAnimation>().Idle();
-        }
-        else if (z > 0)
-        {
-            AnimationControl.GetComponent<PlayerAnimation>().Walk();
-        }
+        
 
-        Vector3 move = transform.forward * z;
+        Vector3 move = transform.right * x + transform.forward * z;
 
         controller.Move(move * speed * Time.deltaTime);
 
         bool jump = Input.GetKey(KeyCode.Space);
         if (jump && isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+            AnimationControl.GetComponent<PlayerAnimation>().Jump();
+            //velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
 
         }
 
@@ -75,15 +65,18 @@ public class PlayerMovement : MonoBehaviour
         //player crouch
         if (Input.GetKey(KeyCode.LeftShift))
         {
+            crouch_collider.enabled = true;
+            stand_collider.enabled = false;
+
+            AnimationControl.GetComponent<PlayerAnimation>().Crouch();
+
+
             //crouch = true;
             if (z < 0)
             {
                 AnimationControl.GetComponent<PlayerAnimation>().CrouchBackwardsWalk();
             }
-            if (z == 0)
-            {
-                AnimationControl.GetComponent<PlayerAnimation>().Crouch();
-            }
+            
             if (z > 0)
             {
                 AnimationControl.GetComponent<PlayerAnimation>().CrouchWalk();
@@ -97,6 +90,18 @@ public class PlayerMovement : MonoBehaviour
             //crouch = false;
             crouch_collider.enabled = false;
             stand_collider.enabled = true;
+            //AnimationControl.GetComponent<PlayerAnimation>().Idle();
+
+            AnimationControl.GetComponent<PlayerAnimation>().Idle();
+
+            if (z < 0)
+            {
+                AnimationControl.GetComponent<PlayerAnimation>().BackwardsWalk();
+            }
+            else if (z > 0)
+            {
+                AnimationControl.GetComponent<PlayerAnimation>().Walk();
+            }
         }
         
 
