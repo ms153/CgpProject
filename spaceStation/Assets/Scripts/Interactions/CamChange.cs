@@ -26,7 +26,7 @@ public class CamChange : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) //show camera 1
+        if (Input.GetKeyDown(KeyCode.F1)) //show camera 1
         {
             Cam1.SetActive(true);
             Cam2.SetActive(false);
@@ -34,7 +34,7 @@ public class CamChange : MonoBehaviour
             Cam4.SetActive(false);
             FpsCam.SetActive(false);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2)) //show camera 2
+        if (Input.GetKeyDown(KeyCode.F2)) //show camera 2
         {
             Cam1.SetActive(false);
             Cam2.SetActive(true);
@@ -42,7 +42,7 @@ public class CamChange : MonoBehaviour
             Cam4.SetActive(false);
             FpsCam.SetActive(false);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3)) //show camera 3
+        if (Input.GetKeyDown(KeyCode.F3)) //show camera 3
         {
             Cam1.SetActive(false);
             Cam2.SetActive(false);
@@ -50,7 +50,7 @@ public class CamChange : MonoBehaviour
             Cam4.SetActive(false);
             FpsCam.SetActive(false);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4)) //show camera 4
+        if (Input.GetKeyDown(KeyCode.F4)) //show camera 4
         {
             Cam1.SetActive(false);
             Cam2.SetActive(false);

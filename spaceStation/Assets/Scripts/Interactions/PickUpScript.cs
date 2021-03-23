@@ -112,7 +112,7 @@ public class PickUpScript : MonoBehaviour
         //Send item info to Interact
     }
 
-    public void Used()
+    private void Used()
     {
         equipped = false;
         slotFull = false;
