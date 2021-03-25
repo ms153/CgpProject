@@ -111,4 +111,17 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    bool count = true;
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Enemy" && count == true)
+        {
+            count = false;
+            Debug.Log("Player Caught, PlayerMove script");     //REPLACE WITH GAMEOVER	
+            AnimationControl.GetComponent<PlayerAnimation>().Die();
+        }
+    }
+
+
 }

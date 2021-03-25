@@ -10,9 +10,9 @@ public class Flaregun : MonoBehaviour {
 	public AudioClip noAmmoSound;	
 	public AudioClip reloadSound;	
 	public int bulletSpeed = 2000;
-	public int maxSpareRounds = 5;
-	public int spareRounds = 1;
-	public int currentRound = 0;
+	public int maxSpareRounds = 0;
+	public int spareRounds = 0;
+	public int currentRound = 1;
 	public bool fire;
 
 	public Transform enemy;
@@ -35,11 +35,6 @@ public class Flaregun : MonoBehaviour {
 				GetComponent<Animation>().Play("noAmmo");
 				GetComponent<AudioSource>().PlayOneShot(noAmmoSound);
 			}
-		}
-		if(Input.GetKeyDown(KeyCode.R) && !GetComponent<Animation>().isPlaying)
-		{
-			Reload();
-			
 		}
 	
 	}
@@ -64,22 +59,5 @@ public class Flaregun : MonoBehaviour {
 			
 			Instantiate(muzzleParticles, barrelEnd.position,barrelEnd.rotation);	//INSTANTIATING THE GUN'S MUZZLE SPARKS	
 	}
-	
-	void Reload()
-	{
-		if(spareRounds >= 1 && currentRound == 0){
-			GetComponent<AudioSource>().PlayOneShot(reloadSound);			
-			spareRounds--;
-			currentRound++;
-			GetComponent<Animation>().CrossFade("Reload");
-		}
-
-		if(spareRounds == 0)
-        {
-			Debug.Log("Out of Ammo");
-        }
 		
-	}
-
-	
 }

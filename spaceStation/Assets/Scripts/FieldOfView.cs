@@ -158,17 +158,17 @@ public class FieldOfView : MonoBehaviour
 		return navHit.position;
 	}
 
+	bool count = true;
 	//*----On Enemy Hit----*
 	private void OnCollisionEnter(Collision collision)
 	{
-		if (collision.collider.tag == "Player")
+		if (collision.collider.tag == "Player" && count == true)
 		{
+			count = false;
 			AI_Enable = false;
 			AnimationControl.GetComponent<EnemyAnimation>().Attack();
-			PlayerAnimControl.GetComponent<PlayerAnimation>().Die();
-			Debug.Log("Player Caught");     //REPLACE WITH GAMEOVER	
-			
-
+		//	PlayerAnimControl.GetComponent<PlayerAnimation>().Die();
+			Debug.Log("Player Caught, Field of View");     //REPLACE WITH GAMEOVER	
 		}
 	}
 

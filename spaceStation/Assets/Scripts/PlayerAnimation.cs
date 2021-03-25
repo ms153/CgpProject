@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerAnimation : MonoBehaviour
 {
     Animator anim;  //contains animator object
+    public int time;
 
     void Start()
     {
@@ -74,7 +76,12 @@ public class PlayerAnimation : MonoBehaviour
     {
         Debug.Log("Die");
         anim.SetTrigger("Die");
+        Invoke("Dead", time);
     }
 
+    private void Dead()
+    {
+        SceneManager.LoadScene(2);
+    }
 
 }
