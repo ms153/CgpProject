@@ -25,11 +25,6 @@ public class PlayerAnimation : MonoBehaviour
         anim.SetFloat("Speed", moveSpeed);
     }
 
-    public void Die()
-    {
-        anim.SetTrigger("Die");
-    }
-
     public void Idle()
     {
         
@@ -73,6 +68,12 @@ public class PlayerAnimation : MonoBehaviour
     public void CrouchBackwardsWalk()
     {
         anim.SetBool("crouchBackwardsWalk", true);
+    }
+
+    public void Die()
+    {
+        Debug.Log("Die");
+        anim.SetTrigger("Die");
     }
 
 

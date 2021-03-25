@@ -14,7 +14,7 @@ public class FieldOfView : MonoBehaviour
 	[HideInInspector]
 	public List<Transform> visibleTargets = new List<Transform>();
 
-	public NavMeshAgent Enemy;     
+	public NavMeshAgent Enemy;
 	public Transform Player;
 
 	public float wanderRadius;
@@ -26,10 +26,14 @@ public class FieldOfView : MonoBehaviour
 	private bool Heard = false;
 	private float timer;
 
-	public bool AI_Enable = true;
+	public bool AI_Enable;
+
+	public GameObject AnimationControl;
+	public GameObject PlayerAnimControl;
 
 	void Start()
 	{
+		AI_Enable = true;
 		Enemy = GetComponent<NavMeshAgent>();
 		StartCoroutine("FindTargetsWithDelay", .2f);
 	}
@@ -69,98 +73,103 @@ public class FieldOfView : MonoBehaviour
 
 				//Vector3 cur_Pos = transform.position;
 
-				if (timer >= wanderTimer) 
+				if (timer >= wanderTimer)
 				{
 					Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
-					
+
 					Enemy.SetDestination(newPos);
 					timer = 0;
 				}
 			}
 		}
-        else
-        {
+		else
+		{
 			Enemy.speed = 0;
-        }
-	}
-		//*----Start Wait Before Begining Search----*
-
-		IEnumerator FindTargetsWithDelay(float delay)
-		{
-			//while (true)
-			while(true)
-			{
-				yield return new WaitForSeconds(delay);
-				FindVisibleTargets();
-			}
 		}
+	}
+	//*----Start Wait Before Begining Search----*
 
-		//*----Core Searching AI----*
-
-		void FindVisibleTargets()
+	IEnumerator FindTargetsWithDelay(float delay)
+	{
+		//while (true)
+		while (true)
 		{
-			visibleTargets.Clear();
+			yield return new WaitForSeconds(delay);
+			FindVisibleTargets();
+		}
+	}
 
-			//----Return All Objects In Sphere----
+	//*----Core Searching AI----*
 
-			Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
+	void FindVisibleTargets()
+	{
+		visibleTargets.Clear();
 
-			for (int i = 0; i < targetsInViewRadius.Length; i++)
+		//----Return All Objects In Sphere----
+
+		Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
+
+		for (int i = 0; i < targetsInViewRadius.Length; i++)
+		{
+			Transform target = targetsInViewRadius[i].transform;
+			Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+			//----Find Objects In Sphere & FOV----
+
+			if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
 			{
-				Transform target = targetsInViewRadius[i].transform;
-				Vector3 dirToTarget = (target.position - transform.position).normalized;
+				float dstToTarget = Vector3.Distance(transform.position, target.position);
 
-				//----Find Objects In Sphere & FOV----
-
-				if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+				//----Only Return If Not Blocked By Obstacle----
+				if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
 				{
-					float dstToTarget = Vector3.Distance(transform.position, target.position);
-
-					//----Only Return If Not Blocked By Obstacle----
-					if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
-					{
-						visibleTargets.Add(target);
-						Spotted = true;
-					}
-					else
-					{
-						Spotted = false;
-					}
+					visibleTargets.Add(target);
+					Spotted = true;
+				}
+				else
+				{
+					Spotted = false;
 				}
 			}
 		}
-
-		//*----Convert Angles To Normal (East --> 0 Deg)----*
-		public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
-		{
-			if (!angleIsGlobal)
-			{
-				angleInDegrees += transform.eulerAngles.y;
-			}
-			return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
-		}
-
-		//*----Pick Random World Point And Find Nearest Point On NavMesh----*
-		public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
-		{
-			Vector3 randDirection = Random.insideUnitSphere * dist;
-
-			randDirection += origin;
-
-			NavMeshHit navHit;
-
-			NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
-
-			return navHit.position;
-		}
-
-		//*----On Enemy Hit----*
-		private void OnCollisionEnter(Collision collision)
-		{
-			if (collision.collider.tag == "Player")
-			{
-				Debug.Log("Player Caught");     //REPLACE WITH GAMEOVER	
-			}
-		}
-	
 	}
+
+	//*----Convert Angles To Normal (East --> 0 Deg)----*
+	public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
+	{
+		if (!angleIsGlobal)
+		{
+			angleInDegrees += transform.eulerAngles.y;
+		}
+		return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+	}
+
+	//*----Pick Random World Point And Find Nearest Point On NavMesh----*
+	public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
+	{
+		Vector3 randDirection = Random.insideUnitSphere * dist;
+
+		randDirection += origin;
+
+		NavMeshHit navHit;
+
+		NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
+
+		return navHit.position;
+	}
+
+	//*----On Enemy Hit----*
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.collider.tag == "Player")
+		{
+			AI_Enable = false;
+			AnimationControl.GetComponent<EnemyAnimation>().Attack();
+			PlayerAnimControl.GetComponent<PlayerAnimation>().Die();
+			Debug.Log("Player Caught");     //REPLACE WITH GAMEOVER	
+			
+
+		}
+	}
+
+}

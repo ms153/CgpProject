@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     bool isGrounded;
     bool crouch;
 
+    bool flaregun;
+
     //colliders for crouching and standing
     CapsuleCollider stand_collider;
     SphereCollider crouch_collider;
@@ -31,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
         //fetch GameObject's colliders
         stand_collider = GetComponent<CapsuleCollider>();
         crouch_collider = GetComponent<SphereCollider>();
+
+        flaregun = true;
     }
 
 

@@ -11,11 +11,20 @@ public class Flaregun : MonoBehaviour {
 	public AudioClip reloadSound;	
 	public int bulletSpeed = 2000;
 	public int maxSpareRounds = 5;
-	public int spareRounds = 3;
+	public int spareRounds = 1;
 	public int currentRound = 0;
-	
-	// Update is called once per frame
-	void Update () 
+	public bool fire;
+
+	public Transform enemy;
+
+
+	private void Start()
+    {
+		fire = true;
+    }
+
+    // Update is called once per frame
+    void Update () 
 	{
 		
 		if(Input.GetButtonDown("Fire1") && !GetComponent<Animation>().isPlaying)
@@ -41,7 +50,8 @@ public class Flaregun : MonoBehaviour {
 		if(currentRound <= 0){
 			currentRound = 0;
 		}
-		
+
+			//gunFired();
 			GetComponent<Animation>().CrossFade("Shoot");
 			GetComponent<AudioSource>().PlayOneShot(flareShotSound);
 		
@@ -63,6 +73,13 @@ public class Flaregun : MonoBehaviour {
 			currentRound++;
 			GetComponent<Animation>().CrossFade("Reload");
 		}
+
+		if(spareRounds == 0)
+        {
+			Debug.Log("Out of Ammo");
+        }
 		
 	}
+
+	
 }
