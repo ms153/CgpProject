@@ -24,13 +24,20 @@ public class PlayerMovement : MonoBehaviour
 
     bool flaregun;
 
+    public bool caught;
+
     //colliders for crouching and standing
     CapsuleCollider stand_collider;
     SphereCollider crouch_collider;
 
+    //public GameObject enemy;
+
     private void Start()
     {
         //fetch GameObject's colliders
+
+        caught = false;
+
         stand_collider = GetComponent<CapsuleCollider>();
         crouch_collider = GetComponent<SphereCollider>();
 
@@ -41,85 +48,81 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
-        velocity.y += gravity * Time.deltaTime;
-
-
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-
-        
-
-        Vector3 move = transform.right * x + transform.forward * z;
-
-        controller.Move(move * speed * Time.deltaTime);
-
-        bool jump = Input.GetKey(KeyCode.Space);
-        if (jump && isGrounded)
         {
-            AnimationControl.GetComponent<PlayerAnimation>().Jump();
-            //velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
 
-        }
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        controller.Move(velocity * Time.deltaTime);
-
-        //player crouch
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            crouch_collider.enabled = true;
-            stand_collider.enabled = false;
-
-            AnimationControl.GetComponent<PlayerAnimation>().Crouch();
+            velocity.y += gravity * Time.deltaTime;
 
 
-            //crouch = true;
-            if (z < 0)
+            float x = Input.GetAxis("Horizontal");
+            float z = Input.GetAxis("Vertical");
+
+
+
+            Vector3 move = transform.right * x + transform.forward * z;
+
+            controller.Move(move * speed * Time.deltaTime);
+
+            bool jump = Input.GetKey(KeyCode.Space);
+            if (jump && isGrounded && caught == false)
             {
-                AnimationControl.GetComponent<PlayerAnimation>().CrouchBackwardsWalk();
-            }
-            
-            if (z > 0)
-            {
-                AnimationControl.GetComponent<PlayerAnimation>().CrouchWalk();
+                AnimationControl.GetComponent<PlayerAnimation>().Jump();
+                //velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
+
             }
 
+            controller.Move(velocity * Time.deltaTime);
 
-        }
-        
-        else
-        {
-            //crouch = false;
-            crouch_collider.enabled = false;
-            stand_collider.enabled = true;
-            //AnimationControl.GetComponent<PlayerAnimation>().Idle();
-
-            AnimationControl.GetComponent<PlayerAnimation>().Idle();
-
-            if (z < 0)
+            //player crouch
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                AnimationControl.GetComponent<PlayerAnimation>().BackwardsWalk();
+                crouch_collider.enabled = true;
+                stand_collider.enabled = false;
+
+                if (caught == false)
+                {
+
+                    AnimationControl.GetComponent<PlayerAnimation>().Crouch();
+
+
+                    //crouch = true;
+                    if (z < 0)
+                    {
+                        AnimationControl.GetComponent<PlayerAnimation>().CrouchBackwardsWalk();
+                    }
+
+                    if (z > 0)
+                    {
+                        AnimationControl.GetComponent<PlayerAnimation>().CrouchWalk();
+                    }
+
+                }
             }
-            else if (z > 0)
+
+            else
             {
-                AnimationControl.GetComponent<PlayerAnimation>().Walk();
+                //crouch = false;
+                crouch_collider.enabled = false;
+                stand_collider.enabled = true;
+                //AnimationControl.GetComponent<PlayerAnimation>().Idle();
+
+                if (caught == false)
+                {
+
+                    AnimationControl.GetComponent<PlayerAnimation>().Idle();
+
+                    if (z < 0)
+                    {
+                        AnimationControl.GetComponent<PlayerAnimation>().BackwardsWalk();
+                    }
+                    else if (z > 0)
+                    {
+                        AnimationControl.GetComponent<PlayerAnimation>().Walk();
+                    }
+                }
             }
-        }
-        
 
-    }
-
-    bool count = true;
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.tag == "Enemy" && count == true)
-        {
-            count = false;
-            Debug.Log("Player Caught, PlayerMove script");     //REPLACE WITH GAMEOVER	
-            AnimationControl.GetComponent<PlayerAnimation>().Die();
         }
     }
 

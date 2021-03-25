@@ -14,6 +14,8 @@ public class FieldOfView : MonoBehaviour
 	[HideInInspector]
 	public List<Transform> visibleTargets = new List<Transform>();
 
+	Animator anim;  //contains animator object
+
 	public NavMeshAgent Enemy;
 	public Transform Player;
 
@@ -26,13 +28,23 @@ public class FieldOfView : MonoBehaviour
 	private bool Heard = false;
 	private float timer;
 
+	private bool caught = false;
+
 	public bool AI_Enable;
 
-	public GameObject AnimationControl;
+	//public GameObject AnimationControl;
+
 	public GameObject PlayerAnimControl;
+	public GameObject AnimationControl;
+
+	public GameObject Player_Body;
+	private PlayerMovement enable;
 
 	void Start()
 	{
+
+		//enable = enemy.GetComponent<PlayerMovement>();
+		enable = Player_Body.GetComponent<PlayerMovement>();
 		AI_Enable = true;
 		Enemy = GetComponent<NavMeshAgent>();
 		StartCoroutine("FindTargetsWithDelay", .2f);
@@ -158,17 +170,18 @@ public class FieldOfView : MonoBehaviour
 		return navHit.position;
 	}
 
-	bool count = true;
 	//*----On Enemy Hit----*
 	private void OnCollisionEnter(Collision collision)
 	{
-		if (collision.collider.tag == "Player" && count == true)
+		if (caught == false)
 		{
-			count = false;
-			AI_Enable = false;
-			AnimationControl.GetComponent<EnemyAnimation>().Attack();
-		//	PlayerAnimControl.GetComponent<PlayerAnimation>().Die();
-			Debug.Log("Player Caught, Field of View");     //REPLACE WITH GAMEOVER	
+			if (collision.collider.tag == "Player")
+			{
+				AI_Enable = false;
+				AnimationControl.GetComponent<EnemyAnimation>().Attack();
+				PlayerAnimControl.GetComponent<PlayerAnimation>().Die();
+				enable.caught = true;
+			}
 		}
 	}
 

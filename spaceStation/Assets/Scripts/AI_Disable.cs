@@ -41,7 +41,7 @@ public class AI_Disable : MonoBehaviour
         {
             yield return new WaitForSeconds(delay);
             enable.AI_Enable = false;
-            Debug.Log("Enemy paused for 2 seconds");
+            //Debug.Log("Enemy paused for 2 seconds");
             resume();
         }
  
@@ -60,7 +60,7 @@ public class AI_Disable : MonoBehaviour
 
     public void resume()
     {
-        Debug.Log("Enabling movement again");
+        //Debug.Log("Enabling movement again");
         enable.AI_Enable = true;
         shot = false;
     }

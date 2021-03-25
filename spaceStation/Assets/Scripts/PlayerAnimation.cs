@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class PlayerAnimation : MonoBehaviour
 {
     Animator anim;  //contains animator object
-    public int time;
 
     void Start()
     {
@@ -29,7 +28,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void Idle()
     {
-        
+
         anim.SetBool("walk", false);
         anim.SetBool("backwards", false);
         anim.SetBool("crouch", false);
@@ -74,14 +73,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("Die");
         anim.SetTrigger("Die");
-        Invoke("Dead", time);
-    }
-
-    private void Dead()
-    {
-        SceneManager.LoadScene(2);
     }
 
 }
