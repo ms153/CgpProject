@@ -1,28 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Pick_Up : MonoBehaviour
 {
     public Transform obj_Dest;
     public Transform player;
-    public GameObject PressZ;
+    //public GameObject ZText;
 
     public float pickUpRange;
+   // private bool LookForItem;
+
+    private void Start()
+    {
+        //ZText.SetActive(false);
+    }
 
     void Update()
     {
 
         Vector3 distanceToPlayer = player.position - transform.position;
 
-        if(distanceToPlayer.magnitude < pickUpRange)
+        /*if(distanceToPlayer.magnitude < pickUpRange && LookForItem == false)
         {
-            PressZ.SetActive(true);
+            //Debug.Log("Hovered Over");
+            ZText.SetActive(true);
+            LookForItem = true;
         }
-        else
+        else if (distanceToPlayer.magnitude > pickUpRange && LookForItem == true)
         {
-            PressZ.SetActive(false);
-        }
+            //Debug.Log("Not Hovered Over");
+            ZText.SetActive(false);
+            LookForItem = false;
+        }*/
 
         if (Input.GetKeyDown(KeyCode.Z) && distanceToPlayer.magnitude < pickUpRange)
         {

@@ -76,4 +76,10 @@ public class PlayerAnimation : MonoBehaviour
         anim.SetTrigger("Die");
     }
 
+    public void Dead()
+    {
+        Debug.Log("anim Play");
+        anim.SetTrigger("HasDied");
+    }
+
 }

@@ -8,6 +8,7 @@ public class Click_Interact : MonoBehaviour
 {
     public Transform[] obj;
     public GameObject player;
+    public GameObject UsedItems;
 
     public bool chip_Complete = false;
     public bool can_Complete = false;
@@ -62,7 +63,8 @@ public class Click_Interact : MonoBehaviour
                     if (state > 0 && state < 5)
                     {
                         //int numChildren = player.transform.childCount;
-                        Destroy(player.transform.GetChild(numChildren - 1).gameObject);
+                        player.transform.GetChild(numChildren - 1).position = UsedItems.transform.position;
+                        Destroy(player.transform.GetChild(numChildren - 1).gameObject);                        
                     }
 
                     switch (state)
@@ -89,14 +91,18 @@ public class Click_Interact : MonoBehaviour
                     }
                 }
             }
+            if (chip_Complete == true && can_Complete == true && blue_ATM_complete == true && green_ATM_complete == true)
+            {
+                RemoveTask = 5;
+                if (hit.collider.gameObject.name == "Shuttle")
+                {
+                    Debug.Log("You Win!");
+                    SceneManager.LoadScene(3);
+                }
+            }
 
         }
 
-        if (chip_Complete == true && can_Complete == true && blue_ATM_complete == true && green_ATM_complete == true)
-        {
-            Debug.Log("You Win!");
-            SceneManager.LoadScene(3);
-        }
 
     }
 
@@ -147,5 +153,4 @@ public class Click_Interact : MonoBehaviour
         CamControl.SetActive(true);
         Debug.Log("Operate cameras");
     }
-
 }

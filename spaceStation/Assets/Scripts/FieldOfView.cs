@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 public class FieldOfView : MonoBehaviour
 {
 	public float viewRadius;
@@ -23,6 +24,7 @@ public class FieldOfView : MonoBehaviour
 	public float wanderTimer;
 	public float hearingRadius;
 	public float speed;
+	public float deathTime;
 
 	private bool Spotted = false;
 	private bool Heard = false;
@@ -72,14 +74,14 @@ public class FieldOfView : MonoBehaviour
 
 			//----Follow Player----
 
-			if ((Spotted == true || Heard == true) & AI_Enable == true)
+			if ((Spotted == true || Heard == true) && AI_Enable == true)
 			{
 				Enemy.SetDestination(Player.position);
 			}
 
 			//----Random Wander Around NavMesh----
 
-			else if ((Spotted == false & Heard == false) & AI_Enable == true)
+			else if ((Spotted == false && Heard == false) && AI_Enable == true)
 			{
 				timer += Time.deltaTime;
 
@@ -181,8 +183,9 @@ public class FieldOfView : MonoBehaviour
 				AnimationControl.GetComponent<EnemyAnimation>().Attack();
 				PlayerAnimControl.GetComponent<PlayerAnimation>().Die();
 				enable.caught = true;
-			}
+				PlayerAnimControl.GetComponent<PlayerAnimation>().Dead();		
 		}
 	}
+}
 
 }

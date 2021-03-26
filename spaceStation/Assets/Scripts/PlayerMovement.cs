@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     //static Animator anim;
 
-    private float speed = 2f;
+    public float speed = 2f;
     public float gravity = -10f;
     public float jumpHeight = 0.5f;
 
@@ -121,6 +121,12 @@ public class PlayerMovement : MonoBehaviour
                         AnimationControl.GetComponent<PlayerAnimation>().Walk();
                     }
                 }
+            }
+
+            if (caught == true)
+            {
+                velocity.x = 0f;
+                controller.enabled = false;
             }
 
         }
